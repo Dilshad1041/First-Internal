@@ -6,7 +6,7 @@
     android:background="@color/light_gray">
 
     <EditText
-        android:id="@+id/editTextTitle"
+        android:id="@+id/TextTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -16,24 +16,25 @@
         android:inputType="text"
         android:imeOptions="actionNext"/>
 
-
     <EditText
-        android:id="@+id/editTextNote"
-        android:layout_width="395dp"
-        android:layout_height="190dp"
-        android:layout_below="@id/editTextTitle"
-        android:layout_marginTop="18dp"
-        android:background="@drawable/edittext_rounded_bg"
-        android:hint="Enter Note Here"
-        android:imeOptions="actionNext"
-        android:inputType="text"
-        android:padding="12dp" />
-
-    <Button
-        android:id="@+id/buttonAdd"
+        android:id="@+id/TextNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextNote"
+        android:layout_below="@id/TextTitle"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_rounded_bg"
+        android:hint="Enter Note Here"
+        android:padding="12dp"
+        android:inputType="text"
+        android:imeOptions="actionNext"/>
+
+
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TextNote"
         android:layout_marginTop="24dp"
         android:background="@drawable/button_rounded_bg"
         android:text="Save"
@@ -42,10 +43,10 @@
         android:gravity="center"/>
 
     <Button
-        android:id="@+id/buttonShow"
+        android:id="@+id/buttonShow2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/buttonAdd"
+        android:layout_below="@id/buttonSave"
         android:layout_marginTop="16dp"
         android:background="@drawable/button_rounded_bg"
         android:text="Show"

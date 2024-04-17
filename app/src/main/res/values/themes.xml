@@ -2,4 +2,7 @@
 <resources>
 
     <style name="Theme.Examination" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="NoteShowTheme" parent="Theme.AppCompat.Light">
+
+    </style>
 </resources>

@@ -1,6 +1,6 @@
 package com.example.examination
 
-import android.annotation.SuppressLint
+import NoteShow
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.cloud.model.Product
+import com.example.examination.model.Note
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -30,69 +30,79 @@ class Home : AppCompatActivity() {
     }
 
     private fun initializeViews() {
-        val editTextProductId = findViewById<EditText>(R.id.editTextProductId)
-        val editTextProductName = findViewById<EditText>(R.id.editTextProductName)
-        val editTextProductPrice = findViewById<EditText>(R.id.editTextProductPrice)
+        val editTextTitle = findViewById<EditText>(R.id.editTextTitle)
+        val editTextNote = findViewById<EditText>(R.id.editTextNote)
         val buttonAdd = findViewById<Button>(R.id.buttonAdd)
         val buttonShow = findViewById<Button>(R.id.buttonShow)
 
         buttonAdd.setOnClickListener {
-            val productId = editTextProductId.text.toString().trim()
-            val productName = editTextProductName.text.toString().trim()
-            val productPrice = editTextProductPrice.text.toString().trim()
+            val noteTtle = editTextTitle.text.toString().trim()
+            val note = editTextNote.text.toString().trim()
 
-            if (productId.isNotEmpty() && productName.isNotEmpty() && productPrice.isNotEmpty()) {
-                val product = Product(productId, productName, productPrice.toDouble())
+
+            if (noteTtle.isNotEmpty() && note.isNotEmpty() ){
+                val product = Note(noteTtle, note)
                 addProductToFirestore(product)
+
             } else {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
         }
 
         buttonShow.setOnClickListener {
-            navigateToProductShow()
+            navigateToNoteShow()
         }
     }
 
-    private fun addProductToFirestore(product: Product) {
-        val editTextProductId = findViewById<EditText>(R.id.editTextProductId)
-        val editTextProductName = findViewById<EditText>(R.id.editTextProductName)
-        val editTextProductPrice = findViewById<EditText>(R.id.editTextProductPrice)
+    private fun addProductToFirestore(product: Note) {
+        val editTextTitle = findViewById<EditText>(R.id.editTextTitle)
+        val editTextNote = findViewById<EditText>(R.id.editTextNote)
 
-        val productsCollection = firestore.collection("products")
+
+        val productsCollection = firestore.collection("notes") // Update collection name to "notes"
+
 
         // Set the timestamp field to the current server time
         product.timestamp = FieldValue.serverTimestamp()
 
-        productsCollection.document(product.productId)
+        productsCollection.document(product.title)
             .set(product)
             .addOnSuccessListener {
-                Toast.makeText(this, "Product added successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Product saved successfully", Toast.LENGTH_SHORT).show()
 
-                editTextProductId.text.clear()
-                editTextProductName.text.clear()
-                editTextProductPrice.text.clear()
+                editTextTitle.text.clear()
+                editTextNote.text.clear()
+
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "Failed to add product: ${e.message}", Toast.LENGTH_SHORT).show()
-                Log.e(ContentValues.TAG, "Error adding product", e)
+                Toast.makeText(this, "Failed to save product: ${e.message}", Toast.LENGTH_SHORT).show()
+                Log.e(ContentValues.TAG, "Error saving product", e)
             }
     }
 
+//    private fun editNote(product: Note) {
+//        val productsCollection = firestore.collection("notes")
+//
+//        // Set the timestamp field to the current server time
+//        product.timestamp = FieldValue.serverTimestamp()
+//
+//        productsCollection.document(product.title)
+//            .set(product)
+//            .addOnSuccessListener {
+//                Toast.makeText(this, "Product updated successfully", Toast.LENGTH_SHORT).show()
+//            }
+//            .addOnFailureListener { e ->
+//                Toast.makeText(this, "Failed to update product: ${e.message}", Toast.LENGTH_SHORT).show()
+//                Log.e(TAG, "Error updating product", e)
+//            }
+//    }
 
-    private fun navigateToProductShow() {
-        val intent = Intent(this, ProductShow::class.java)
+
+
+    private fun navigateToNoteShow() {
+        val intent = Intent(this, NoteShow::class.java)
         startActivity(intent)
-        finish()
     }
 
-    private fun clearFields() {
-        val editTextProductId = findViewById<EditText>(R.id.editTextProductId)
-        val editTextProductName = findViewById<EditText>(R.id.editTextProductName)
-        val editTextProductPrice = findViewById<EditText>(R.id.editTextProductPrice)
 
-        editTextProductId.text.clear()
-        editTextProductName.text.clear()
-        editTextProductPrice.text.clear()
-    }
 }
